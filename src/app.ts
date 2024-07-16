@@ -7,6 +7,7 @@ import { courseRouter } from "./app/modules/course/course.route";
 import { notificationRouter } from "./app/modules/notification/notification.route";
 import { ErrorMiddleware } from "./app/middleware/error";
 import { orderRouter } from "./app/modules/order/order.route";
+import { analyticsRouter } from "./app/modules/analytics/analytics.router";
 
 
 export const app = express();
@@ -18,9 +19,10 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: process.env.ORIGIN,
-  })
+  }
+)
 );
-app.use("/api/v1", userRouter, layoutRouter,courseRouter,notificationRouter,orderRouter);
+app.use("/api/v1", userRouter, layoutRouter,courseRouter,notificationRouter,orderRouter,analyticsRouter);
 
 app.get("/", (req, res) => {
   res.send("All OK");

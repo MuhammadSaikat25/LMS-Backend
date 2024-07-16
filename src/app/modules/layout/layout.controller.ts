@@ -1,11 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-
 import cloudinary from "cloudinary";
 import catchAsyncError from "../../utils/catchAsyncErrors";
-// import ErrorHandler from "../../utils/ErrorHandler";
 import { LayoutModel } from "./layout.model";
 import { ErrorHandler } from "../../utils/ErrorHandler";
-
 
 const createLayout = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -84,11 +81,11 @@ const editLayout = catchAsyncError(
         title,
         subTitle,
       };
-      await LayoutModel.findByIdAndUpdate(bannerData.id,{banner});
+      await LayoutModel.findByIdAndUpdate(bannerData.id, { banner });
     }
     if (type === "FAQ") {
       const { faq } = req.body;
-      const faqItems=await LayoutModel.findOne({type:"FAQ"})
+      const faqItems = await LayoutModel.findOne({ type: "FAQ" });
       const FaqItems = await Promise.all(
         faq.map(async (item: any) => {
           return {
@@ -97,11 +94,14 @@ const editLayout = catchAsyncError(
           };
         })
       );
-      await LayoutModel.findByIdAndUpdate(faqItems?._id,{ type: "FAQ", faq: FaqItems });
+      await LayoutModel.findByIdAndUpdate(faqItems?._id, {
+        type: "FAQ",
+        faq: FaqItems,
+      });
     }
     if (type === "Categories") {
       const { categories } = req.body;
-      const categoriesData=await LayoutModel.findOne({type:"CAtegories"})
+      const categoriesData = await LayoutModel.findOne({ type: "CAtegories" });
       const categoriesItems = await Promise.all(
         categories.map(async (item: any) => {
           return {
@@ -109,7 +109,7 @@ const editLayout = catchAsyncError(
           };
         })
       );
-      await LayoutModel.findByIdAndUpdate(categoriesData?._id,{
+      await LayoutModel.findByIdAndUpdate(categoriesData?._id, {
         type: "Categories",
         Categories: categoriesItems,
       });
@@ -121,17 +121,18 @@ const editLayout = catchAsyncError(
   }
 );
 
-
-const  getLayoutByType=catchAsyncError(async(req:Request,res:Response,nest:NextFunction)=>{
-    const {type}=req.body
-    const layout=await LayoutModel.findOne({type})
+const getLayoutByType = catchAsyncError(
+  async (req: Request, res: Response, nest: NextFunction) => {
+    const { type } = req.body;
+    const layout = await LayoutModel.findOne({ type });
     res.status(200).json({
-        success:true,
-        data:layout
-    })
-})
+      success: true,
+      data: layout,
+    });
+  }
+);
 export const layoutController = {
   createLayout,
   editLayout,
-  getLayoutByType
+  getLayoutByType,
 };
