@@ -1,0 +1,94 @@
+import bcrypt from "bcryptjs";
+import { TUser } from "./user.interface";
+import UserModel from "./user.model";
+import jwt from "jsonwebtoken";
+import { ErrorHandler } from "../../utils/ErrorHandler";
+require("dotenv").config();
+
+const registrationUser = async (playLoad: TUser) => {
+  const result = await UserModel.create(playLoad);
+  return result;
+};
+const loginUser = async (playLoad: { email: string; password: string }) => {
+  const userExist = await UserModel.findOne({ email: playLoad.email });
+  if (!userExist) {
+    return;
+  }
+
+  const comparePassword = await bcrypt.compare(
+    playLoad.password,
+    userExist.password
+  );
+
+  if (!comparePassword) {
+    throw new Error("Password does not match");
+  }
+
+  const jwtPlayLoad = {
+    _id: userExist._id,
+    email: userExist.email,
+    role: userExist.role,
+    name: userExist.name,
+  };
+  const token = jwt.sign(jwtPlayLoad, process.env.ACCESS_TOKEN as string, {
+    expiresIn: "5d",
+  });
+
+  return token;
+};
+const updateUser = async (playLoad: Partial<TUser>, email: string) => {
+  const user = await UserModel.findOne({ email });
+  if (!user) {
+    throw new Error("User does't found");
+  }
+
+  const updateData = await UserModel.findOneAndUpdate({ email }, playLoad, {
+    new: true,
+  });
+  return updateData;
+};
+const updatePassword = async (
+  playLoad: { password: string; newPassword: string },
+  email: string
+) => {
+  const findUser = await UserModel.findOne({ email });
+  if (!findUser) {
+    return;
+  }
+  const comparePassword = await bcrypt.compare(
+    playLoad.password,
+    findUser.password
+  );
+  if (!comparePassword) {
+    throw new Error("Password does't match");
+  }
+  const result = await UserModel.findOneAndUpdate(
+    { email },
+    { password: playLoad.newPassword },
+    { new: true }
+  );
+  return result;
+};
+const updateUserRoleByAdmin = async (id: string, role: string) => {
+  
+  const result = await UserModel.findByIdAndUpdate(id, { role }, { new: true });
+
+  return result;
+};
+
+const deleteUser=async(id:string)=>{
+  const isUSerExits=UserModel.findById(id)
+  if(!isUSerExits){
+    return new ErrorHandler('user does not exits',400)
+  }
+  const result =await UserModel.findByIdAndDelete(id)
+  return result
+}
+export const userService = {
+  registrationUser,
+  loginUser,
+  updateUser,
+  updatePassword,
+  updateUserRoleByAdmin,
+  deleteUser
+};
