@@ -3,7 +3,6 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import UserModel from "../modules/users/user.model";
 import catchAsyncError from "../utils/catchAsyncErrors";
 import { ErrorHandler } from "../utils/ErrorHandler";
-// import ErrorHandler from "../utils/ErrorHandler";
 
 require("dotenv").config();
 
@@ -17,14 +16,14 @@ export const auth = (...UserRole: string[]) => {
       const token = req.cookies.token;
 
       if (!token) {
-        console.log();
+       
         return next(new ErrorHandler("You have no access to this route", 400));
       }
       const decoded = jwt.verify(
         token as string,
         process.env.ACCESS_TOKEN as string
       ) as JwtPayload;
-
+     
       const userExist = await UserModel.findById(decoded._id);
 
       if (!userExist) {
@@ -38,7 +37,7 @@ export const auth = (...UserRole: string[]) => {
           message: "You have no access to this route",
         });
       }
-
+      
       req.user = userExist;
       next();
     }

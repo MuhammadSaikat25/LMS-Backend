@@ -12,7 +12,7 @@ router.put('/update-user',auth("user"),userController.updateUser)
 router.put('/update-password',auth("user","admin"),userController.updatePassword)
 router.get('/get-allUsers',auth("admin",),userController.getAllUserByAdmin)
 router.get('/get-allCourse',auth("admin",),userController.getAllCourseByAdmin)
-// router.get('/get-allOrder',auth("admin",),userController.getAllOrderByAdmin)
+
 router.put('/update-role/:id',auth('admin'),userController.updateUserRoleByAdmin)
 router.delete("/delete-user/:id",auth('admin'),userController.deleteUser)
 export const userRouter = router;

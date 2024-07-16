@@ -77,20 +77,7 @@ const getAllCourseByAdmin = catchAsyncError(
     }
   }
 );
-// ! get all order for admin
-// const getAllOrderByAdmin = catchAsyncError(
-//   async (req: Request & { user: any }, res: Response, next: NextFunction) => {
-//     try {
-//       const result = await OrderModel .find().sort({ createdAt: -1 });
-//       res.status(200).json({
-//         success: true,
-//         data: result,
-//       });
-//     } catch (error: any) {
-//       next(new ErrorHandler(error.message, 400));
-//     }
-//   }
-// );
+
 // ! get all course for admin
 const getAllUserByAdmin = catchAsyncError(
   async (req: Request & { user: any }, res: Response, next: NextFunction) => {
@@ -108,7 +95,7 @@ const getAllUserByAdmin = catchAsyncError(
 const updateUserRoleByAdmin = catchAsyncError(
   async (req: Request & { user: any }, res: Response, next: NextFunction) => {
     try {
-      const {role}=req.body
+      const { role } = req.body;
       const result = await userService.updateUserRoleByAdmin(
         req.params.id,
         role
@@ -121,16 +108,18 @@ const updateUserRoleByAdmin = catchAsyncError(
       next(new ErrorHandler(error.message, 400));
     }
   }
-)
+);
 
-const deleteUser=catchAsyncError(async (req: Request & { user: any }, res: Response, next: NextFunction)=>{
-  const result =await userService.deleteUser(req.params.id)
-  res.status(200).json({
-    success:true,
-    message:"Delete user successful",
-    data:result
-  })
-})
+const deleteUser = catchAsyncError(
+  async (req: Request & { user: any }, res: Response, next: NextFunction) => {
+    const result = await userService.deleteUser(req.params.id);
+    res.status(200).json({
+      success: true,
+      message: "Delete user successful",
+      data: result,
+    });
+  }
+);
 
 export const userController = {
   registrationUser,
@@ -140,7 +129,6 @@ export const userController = {
   updatePassword,
   getAllUserByAdmin,
   getAllCourseByAdmin,
-  // getAllOrderByAdmin,
   updateUserRoleByAdmin,
-  deleteUser
+  deleteUser,
 };

@@ -6,14 +6,8 @@ import { layoutRouter } from "./app/modules/layout/layout.route";
 import { courseRouter } from "./app/modules/course/course.route";
 import { notificationRouter } from "./app/modules/notification/notification.route";
 import { ErrorMiddleware } from "./app/middleware/error";
+import { orderRouter } from "./app/modules/order/order.route";
 
-// import { userRouter } from "../modules/users/user.route";
-// import { analyticsRouter } from "./app/modules/analytics/analytics.route";
-// import { layoutRouter } from "../modules/layout/layout.route";
-// import { courseRouter } from "../modules/course/course.route";
-// import { orderRouter } from "./app/modules/order/order.route";
-// import { notificationRouter } from "../modules/notification/notification.route";
-// import { ErrorMiddleware } from "./app/middleware/error";
 
 export const app = express();
 require("dotenv").config();
@@ -26,10 +20,7 @@ app.use(
     origin: process.env.ORIGIN,
   })
 );
-app.use("/api/v1", userRouter, layoutRouter);
-app.use("/api/v1", courseRouter);
-// app.use("/api/v1", orderRouter);
-app.use("/api/v1", notificationRouter);
+app.use("/api/v1", userRouter, layoutRouter,courseRouter,notificationRouter,orderRouter);
 
 app.get("/", (req, res) => {
   res.send("All OK");
