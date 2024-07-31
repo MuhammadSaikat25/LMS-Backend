@@ -31,7 +31,7 @@ const loginUser = async (playLoad: { email: string; password: string }) => {
     name: userExist.name,
   };
   const token = jwt.sign(jwtPlayLoad, process.env.ACCESS_TOKEN as string, {
-    expiresIn: "5d",
+    expiresIn: "7d",
   });
 
   return token;
@@ -69,26 +69,34 @@ const updatePassword = async (
   );
   return result;
 };
-const updateUserRoleByAdmin = async (id: string, role: string) => {
-  
-  const result = await UserModel.findByIdAndUpdate(id, { role }, { new: true });
+const updateUserRoleByAdmin = async (email: string, role: string) => {
+  const user=await UserModel.findOne({email})
+  if(!user){
+    throw new ErrorHandler("User does't found",400)
+    
+  }
+  const result = await UserModel.findOneAndUpdate(
+    { email },
+    { role },
+    { new: true }
+  );
 
   return result;
 };
 
-const deleteUser=async(id:string)=>{
-  const isUSerExits=UserModel.findById(id)
-  if(!isUSerExits){
-    return new ErrorHandler('user does not exits',400)
+const deleteUser = async (id: string) => {
+  const isUSerExits = UserModel.findById(id);
+  if (!isUSerExits) {
+    return new ErrorHandler("user does not exits", 400);
   }
-  const result =await UserModel.findByIdAndDelete(id)
-  return result
-}
+  const result = await UserModel.findByIdAndDelete(id);
+  return result;
+};
 export const userService = {
   registrationUser,
   loginUser,
   updateUser,
   updatePassword,
   updateUserRoleByAdmin,
-  deleteUser
+  deleteUser,
 };

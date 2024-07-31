@@ -1,8 +1,6 @@
-
 require("dotenv").config();
 import mongoose from "mongoose";
 import { app } from "./app";
-
 
 async function main() {
   try {

@@ -2,9 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import cloudinary from "cloudinary";
 import catchAsyncError from "../../utils/catchAsyncErrors";
 import { courseService } from "./course.service";
-// import ErrorHandler from "../../utils/ErrorHandler";
+
 import { CourseModel } from "./course.model";
 import { ErrorHandler } from "../../utils/ErrorHandler";
+import axios from "axios";
 
 const createCourse = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -101,10 +102,33 @@ const deleteCourseByAdmin = catchAsyncError(
       const result = await courseService.deleteCourseByAdmin(req.params.id);
       res.status(200).json({
         success: true,
-        message:"Course delete successful"
+        message: "Course delete successful",
       });
     } catch (error: any) {
       next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
+
+const generateVideoUrl = catchAsyncError(
+  async (req: Request & { user: any }, res: Response, next: NextFunction) => {
+    try {
+      const { videoId } = req.body;
+
+      const response = await axios.post(
+        `https://dev.vdocipher.com/api/videos/${videoId}/otp`,
+        { ttl: 300 },
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Apisecret ${process.env.VIDEO_CIPER}`,
+          },
+        }
+      );
+      res.json(response.data);
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
     }
   }
 );
@@ -114,5 +138,6 @@ export const courseController = {
   getSingleCourse,
   getAllCourse,
   getCourseByUser,
-  deleteCourseByAdmin
+  deleteCourseByAdmin,
+  generateVideoUrl,
 };

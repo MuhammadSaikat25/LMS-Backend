@@ -1,30 +1,16 @@
 import { model, Schema } from "mongoose";
-import { TCourse, TCourseData, TLink, TReview } from "./course.interface";
+import { TCourse, TCourseData, TReview } from "./course.interface";
 
 const ReviewSchema = new Schema<TReview>({
   user: { type: Object },
   rating: { type: Number, default: 0 },
   comment: String,
 });
-const CommentSchema = new Schema({
-  user: Object,
-  comment: String,
-});
-const LinkSchema = new Schema<TLink>({
-  title: String,
-  url: String,
-});
+
 const CourseDataSchema = new Schema<TCourseData>({
-  title: String,
-  description: String,
-  videoUrl: String,
-  videoThumbnail: Object,
-  videoSection: String,
-  videoLength: Number,
-  videoPlayer: String,
-  links: [LinkSchema],
-  suggestion: String,
-  question: [CommentSchema],
+  module: String,
+  linksUrl: [{ title: String, url: String }],
+  videos: [{ title: String, url: String }],
 });
 
 const CourseSchema = new Schema<TCourse>(
@@ -39,7 +25,6 @@ const CourseSchema = new Schema<TCourse>(
     },
     tags: {
       type: String,
-      require: true,
     },
     level: {
       type: String,

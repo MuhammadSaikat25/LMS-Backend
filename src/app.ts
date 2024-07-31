@@ -9,20 +9,32 @@ import { ErrorMiddleware } from "./app/middleware/error";
 import { orderRouter } from "./app/modules/order/order.route";
 import { analyticsRouter } from "./app/modules/analytics/analytics.router";
 
-
 export const app = express();
 require("dotenv").config();
 
-app.use(express.json());
+app.use(express.json({ limit: '25mb' }))
 
 app.use(cookieParser());
+
 app.use(
   cors({
-    origin: process.env.ORIGIN,
-  }
-)
+    origin: 'http://localhost:3000',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Other-Custom-Header']
+  })
 );
-app.use("/api/v1", userRouter, layoutRouter,courseRouter,notificationRouter,orderRouter,analyticsRouter);
+
+
+app.use(
+  "/api/v1",
+  userRouter,
+  layoutRouter,
+  courseRouter,
+  notificationRouter,
+  orderRouter,
+  analyticsRouter
+);
 
 app.get("/", (req, res) => {
   res.send("All OK");

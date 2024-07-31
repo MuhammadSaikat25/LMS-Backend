@@ -96,10 +96,12 @@ const updateUserRoleByAdmin = catchAsyncError(
   async (req: Request & { user: any }, res: Response, next: NextFunction) => {
     try {
       const { role } = req.body;
+
       const result = await userService.updateUserRoleByAdmin(
-        req.params.id,
+        req.params.email,
         role
       );
+      
       res.status(200).json({
         success: true,
         data: result,
