@@ -38,6 +38,7 @@ const updateCourse = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const courseId = req.params.id;
+
       const result = await courseService.updateCourse(req.body, courseId);
       res.status(200).json({
         success: true,

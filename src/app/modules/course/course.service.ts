@@ -1,4 +1,4 @@
-import {ErrorHandler} from "../../utils/ErrorHandler";
+import { ErrorHandler } from "../../utils/ErrorHandler";
 import { TCourse } from "./course.interface";
 import { CourseModel } from "./course.model";
 
@@ -31,7 +31,7 @@ const getCourseByUser = async (courseId: string, userCourse: any) => {
     return new ErrorHandler("you are not eligible to access this course", 400);
   }
   const course = await CourseModel.findById(courseExist);
-  return course?.courseData;
+  return course?.courseContent;
 };
 const deleteCourseByAdmin = async (id: string) => {
   const courseExist = await CourseModel.findById(id);

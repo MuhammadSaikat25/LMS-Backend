@@ -1,14 +1,4 @@
-export interface TComment {
-  user: object;
-  comment: string;
-}
 
-export interface TReview {
-  user: object;
-  rating: number;
-  comment: string;
-  commentReplies: TComment[];
-}
 
 
 export interface TCourseData {
@@ -27,9 +17,9 @@ export interface TCourse {
   level: string;
   demoUrl: string;
   benefits: { title: string }[];
-  prerequisites: { title: string }[];
-  reviews?: TReview[];
-  courseData: TCourseData[];
+  prerequisite: { title: string }[];
+  reviews?: [];
+  courseContent: TCourseData[];
   ratings?: number;
   purchased?: number;
 }

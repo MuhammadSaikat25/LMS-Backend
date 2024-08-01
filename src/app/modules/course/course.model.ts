@@ -1,11 +1,7 @@
 import { model, Schema } from "mongoose";
-import { TCourse, TCourseData, TReview } from "./course.interface";
+import { TCourse, TCourseData } from "./course.interface";
 
-const ReviewSchema = new Schema<TReview>({
-  user: { type: Object },
-  rating: { type: Number, default: 0 },
-  comment: String,
-});
+
 
 const CourseDataSchema = new Schema<TCourseData>({
   module: String,
@@ -35,9 +31,9 @@ const CourseSchema = new Schema<TCourse>(
       require: true,
     },
     benefits: [{ title: String }],
-    prerequisites: [{ title: String }],
-    reviews: [ReviewSchema],
-    courseData: [CourseDataSchema],
+    prerequisite: [{ title: String }],
+    reviews: [],
+    courseContent: [CourseDataSchema],
     ratings: {
       type: Number,
       default: 0,
