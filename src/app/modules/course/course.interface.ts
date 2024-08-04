@@ -12,7 +12,7 @@ export interface TCourse {
   description?: string;
   price: number;
   estimatedPrice?: number;
-  thumbnail: object;
+  thumbnail: string;
   tags?: string;
   level: string;
   demoUrl: string;

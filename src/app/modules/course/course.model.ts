@@ -15,10 +15,7 @@ const CourseSchema = new Schema<TCourse>(
     description: { type: String, required: true },
     price: { type: Number, required: true },
     estimatedPrice: { type: Number },
-    thumbnail: {
-      public_id: String,
-      url: String,
-    },
+    thumbnail: String,
     tags: {
       type: String,
     },

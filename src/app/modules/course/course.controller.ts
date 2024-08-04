@@ -11,18 +11,7 @@ const createCourse = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = req.body;
-      const thumbnail = data.thumbnail;
 
-      if (thumbnail) {
-        const myCloud = await cloudinary.v2.uploader.upload(thumbnail.url, {
-          folder: "courses",
-        });
-
-        data.thumbnail = {
-          public_id: myCloud.public_id,
-          url: myCloud.secure_url,
-        };
-      }
       const result = await courseService.createCourse(data);
       res.json({
         success: true,
