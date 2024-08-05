@@ -1,5 +1,7 @@
-export interface TOrder{
-    courseId:string,
-    userId:string,
-    payment_info:object
+import { ObjectId } from "mongoose";
+
+export interface TOrder {
+  courseId: ObjectId | string;
+  userId: ObjectId | string;
+  payment_info: object;
 }

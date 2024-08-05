@@ -26,7 +26,7 @@ const createOrder = catchAsyncError(
 const getAllOrderByAdmin = catchAsyncError(
   async (req: Request & { user: any }, res: Response, next: NextFunction) => {
     try {
-      const result = await orderModel.find().sort({ createdAt: -1 });
+      const result = await orderModel.find().sort({ createdAt: -1 }).populate('courseId',"price").populate('userId');
       res.status(200).json({
         success: true,
         data: result,
