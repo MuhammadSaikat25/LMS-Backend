@@ -14,7 +14,7 @@ export const auth = (...UserRole: string[]) => {
       next: NextFunction
     ) => {
       const token = req.cookies.token;
-
+     
       if (!token) {
        
         return next(new ErrorHandler("You have no access to this route", 400));

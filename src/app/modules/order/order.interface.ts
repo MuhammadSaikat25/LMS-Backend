@@ -3,5 +3,5 @@ import { ObjectId } from "mongoose";
 export interface TOrder {
   courseId: ObjectId | string;
   userId: ObjectId | string;
-  payment_info: object;
+  paymentInfo?: object;
 }

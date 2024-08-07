@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import cloudinary from "cloudinary";
 import catchAsyncError from "../../utils/catchAsyncErrors";
 import { courseService } from "./course.service";
 
@@ -46,7 +45,7 @@ const getSingleCourse = catchAsyncError(
       const result = await courseService.getSingleCourse(courseId);
       res.status(200).json({
         success: true,
-        date: result,
+        data: result,
       });
     } catch (error: any) {
       next(new ErrorHandler(error.message, 400));
@@ -56,9 +55,10 @@ const getSingleCourse = catchAsyncError(
 const getAllCourse = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await CourseModel.find().select(
-        "-courseData.videoUrl -courseData.suggestion -courseData.question -courseData.links "
-      );
+      const result = await CourseModel.find();
+      // select(
+      //   "-courseData.videoUrl -courseData.suggestion -courseData.question -courseData.links "
+      // );
       res.status(200).send({
         success: true,
         data: result,

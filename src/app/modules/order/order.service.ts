@@ -30,6 +30,7 @@ const createOrder = async <T>(playLoad: any) => {
   const data: any = {
     userId: user?._id,
     courseId: isCourseExit!._id,
+    paymentInfo
   };
   const result = await orderModel.create(data);
   const mailData = {

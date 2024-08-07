@@ -5,7 +5,7 @@ const orderSchema = new Schema<TOrder>(
   {
     courseId: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    payment_info: Object,
+    paymentInfo: Object,
   },
   {
     timestamps: true,
